@@ -17,60 +17,36 @@
 
     function searchItem (icon, title, slug, preview, url) {
         return $('<div>').addClass('ins-selectable').addClass('ins-search-item')
-            .append($('<header>').append($('<i>').addClass('fa').addClass('fa-' + icon)).append(title != null && title != '' ? title : CONFIG.TRANSLATION['UNTITLED'])
+            .append($('<header>').append($('<i>').addClass('fa').addClass('fa-' + icon))
+                .append($('<span>').addClass('ins-title').text(title != null && title !== '' ? title : CONFIG.TRANSLATION['UNTITLED']))
                 .append(slug ? $('<span>').addClass('ins-slug').text(slug) : null))
-            .append(preview ? $('<p>').addClass('ins-search-preview').html(preview) : null)
+            .append(preview ? $('<p>').addClass('ins-search-preview').text(preview) : null)
             .attr('data-url', url);
     }
 
-    function sectionFactory (keywords, type, array) {
+    function sectionFactory (type, array) {
         var sectionTitle;
         var $searchItems;
-        var keywordArray = parseKeywords(keywords);
         if (array.length === 0) return null;
         sectionTitle = CONFIG.TRANSLATION[type];
         switch (type) {
             case 'POSTS':
             case 'PAGES':
                 $searchItems = array.map(function (item) {
-                    var firstOccur = item.firstOccur > 20 ? item.firstOccur - 20 : 0;
-                    var preview = "";
-                    delete item.firstOccur;
-                    keywordArray.forEach(function(keyword){
-                        var regS = new RegExp(keyword, "gi");
-                        preview = item.text.replace(regS, "<em class=\"search-keyword\"> " + keyword + " </em>");
-                    });
-                    preview = preview ? preview.slice(firstOccur, firstOccur + 80) : item.text.slice(0, 80);
-                    return searchItem('file', item.title, null, preview, CONFIG.ROOT_URL + item.path);
+                    // Use config.root instead of permalink to fix url issue
+                    return searchItem('file', item.title, null, item.text.slice(0, 150), item.link);
                 });
                 break;
             case 'CATEGORIES':
             case 'TAGS':
                 $searchItems = array.map(function (item) {
-                    return searchItem(type === 'CATEGORIES' ? 'folder' : 'tag', item.name, item.slug, null, item.permalink);
+                    return searchItem(type === 'CATEGORIES' ? 'folder' : 'tag', item.name, item.slug, null, item.link);
                 });
                 break;
             default:
                 return null;
         }
         return section(sectionTitle).append($searchItems);
-    }
-
-    function extractToSet (json, key) {
-        var values = {};
-        var entries = json.pages.concat(json.posts);
-        entries.forEach(function (entry) {
-            if (entry[key]) {
-                entry[key].forEach(function (value) {
-                    values[value.name] = value;
-                });
-            }
-        });
-        var result = [];
-        for (var key in values) {
-            result.push(values[key]);
-        }
-        return result;
     }
 
     function parseKeywords (keywords) {
@@ -87,17 +63,13 @@
      * @param Array<String>     fields  Object's fields to find matches
      */
     function filter (keywords, obj, fields) {
-        var result = false;
         var keywordArray = parseKeywords(keywords);
         var containKeywords = keywordArray.filter(function (keyword) {
             var containFields = fields.filter(function (field) {
                 if (!obj.hasOwnProperty(field))
                     return false;
-                var firstOccur = obj[field].toUpperCase().indexOf(keyword);
-                if (firstOccur > -1) {
-                    if (field == "text") obj["firstOccur"] = firstOccur;
+                if (obj[field].toUpperCase().indexOf(keyword) > -1)
                     return true;
-                }
             });
             if (containFields.length > 0)
                 return true;
@@ -165,20 +137,20 @@
         var FILTERS = filterFactory(keywords);
         var posts = json.posts;
         var pages = json.pages;
-        var tags = extractToSet(json, 'tags');
-        var categories = extractToSet(json, 'categories');
+        var tags = json.tags;
+        var categories = json.categories;
         return {
-            posts: posts.filter(FILTERS.POST).sort(function (a, b) { return WEIGHTS.POST(b) - WEIGHTS.POST(a); }),
-            pages: pages.filter(FILTERS.PAGE).sort(function (a, b) { return WEIGHTS.PAGE(b) - WEIGHTS.PAGE(a); }),
-            categories: categories.filter(FILTERS.CATEGORY).sort(function (a, b) { return WEIGHTS.CATEGORY(b) - WEIGHTS.CATEGORY(a); }),
-            tags: tags.filter(FILTERS.TAG).sort(function (a, b) { return WEIGHTS.TAG(b) - WEIGHTS.TAG(a); })
+            posts: posts.filter(FILTERS.POST).sort(function (a, b) { return WEIGHTS.POST(b) - WEIGHTS.POST(a); }).slice(0, 5),
+            pages: pages.filter(FILTERS.PAGE).sort(function (a, b) { return WEIGHTS.PAGE(b) - WEIGHTS.PAGE(a); }).slice(0, 5),
+            categories: categories.filter(FILTERS.CATEGORY).sort(function (a, b) { return WEIGHTS.CATEGORY(b) - WEIGHTS.CATEGORY(a); }).slice(0, 5),
+            tags: tags.filter(FILTERS.TAG).sort(function (a, b) { return WEIGHTS.TAG(b) - WEIGHTS.TAG(a); }).slice(0, 5)
         };
     }
 
-    function searchResultToDOM (keywords, searchResult) {
+    function searchResultToDOM (searchResult) {
         $container.empty();
         for (var key in searchResult) {
-            $container.append(sectionFactory(keywords, key.toUpperCase(), searchResult[key]));
+            $container.append(sectionFactory(key.toUpperCase(), searchResult[key]));
         }
     }
 
@@ -222,19 +194,31 @@
         }
         $input.on('input', function () {
             var keywords = $(this).val();
-            searchResultToDOM(keywords, search(json, keywords));
+            searchResultToDOM(search(json, keywords));
         });
         $input.trigger('input');
     });
 
-
-    $(document).on('click focus', '.search-form-input', function () {
+    var touch = false;
+    $(document).on('click focus', '.navbar-main .search', function () {
         $main.addClass('show');
         $main.find('.ins-search-input').focus();
-    }).on('click', '.ins-search-item', function () {
+    }).on('click touchend', '.ins-search-item', function (e) {
+        if (e.type !== 'click' && !touch) {
+            return;
+        }
         gotoLink($(this));
-    }).on('click', '.ins-close', function () {
+        touch = false;
+    }).on('click touchend', '.ins-close', function (e) {
+        if (e.type !== 'click' && !touch) {
+            return;
+        }
+        $('.navbar-main').css('pointer-events', 'none');
+        setTimeout(function(){
+            $('.navbar-main').css('pointer-events', 'auto');
+        }, 400);
         $main.removeClass('show');
+        touch = false;
     }).on('keydown', function (e) {
         if (!$main.hasClass('show')) return;
         switch (e.keyCode) {
@@ -247,5 +231,9 @@
             case 13: //ENTER
                 gotoLink($container.find('.ins-selectable.active').eq(0)); break;
         }
+    }).on('touchstart', function (e) {
+        touch = true;
+    }).on('touchmove', function (e) {
+        touch = false;
     });
 })(jQuery, window.INSIGHT_CONFIG);
