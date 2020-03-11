@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://zuriaake.github.io/"/>
-  <updated>2020-03-10T16:32:02.237Z</updated>
+  <updated>2020-03-11T10:45:02.021Z</updated>
   <id>http://zuriaake.github.io/</id>
   
   <author>
@@ -17,24 +17,59 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>Hello World</title>
-    <link href="http://zuriaake.github.io/undefinedhello-world/"/>
-    <id>http://zuriaake.github.io/undefinedhello-world/</id>
-    <published>2020-03-10T16:32:02.237Z</published>
-    <updated>2020-03-10T16:32:02.237Z</updated>
+    <title>vim 中批量添加注释</title>
+    <link href="http://zuriaake.github.io/undefinedvim-%E4%B8%AD%E6%89%B9%E9%87%8F%E6%B7%BB%E5%8A%A0%E6%B3%A8%E9%87%8A/"/>
+    <id>http://zuriaake.github.io/undefinedvim-%E4%B8%AD%E6%89%B9%E9%87%8F%E6%B7%BB%E5%8A%A0%E6%B3%A8%E9%87%8A/</id>
+    <published>2020-03-10T09:00:00.000Z</published>
+    <updated>2020-03-11T10:45:02.021Z</updated>
     
-    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" rel="external nofollow noopener noreferrer" target="_blank">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" rel="external nofollow noopener noreferrer" target="_blank">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" rel="external nofollow noopener noreferrer" target="_blank">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" rel="external nofollow noopener noreferrer" target="_blank">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html" rel="external nofollow noopener noreferrer" target="_blank">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html" rel="external nofollow noopener noreferrer" target="_blank">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html" rel="external nofollow noopener noreferrer" target="_blank">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" rel="external nofollow noopener noreferrer" target="_blank">Deployment</a></p>]]></content>
+    <content type="html"><![CDATA[<p>假如在<strong>VIM</strong>里要把下面的设置行都注释掉：</p><p><img src="/images/vim1.png" alt></p><p>推荐第一种方法：</p><p><strong>Ctrl+v</strong>进入块选择模式，移动光标选择需要注释的行,按下大写的I(首行插入模式),输入注释符（比如#）,按<strong>ESC</strong>退出.</p><p><img src="/images/vim2.png" alt></p><p>批量删除刚刚添加的注释符，同样按下<strong>Ctrl+v</strong>进入快选择模式，移动光标选择需要删除的行，</p><p>选好之后直接按<strong>d</strong>删除。</p><p><img src="/images/vim3.png" alt></p><p>第二种方法：<strong>vim</strong>替换命令</p><p>设置行号，因为要用到</p><p><img src="/images/vim4.png" alt></p><p>普通模式下输入:</p><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:<span class="number">80</span>,<span class="number">102</span>s/^/#/g</span><br></pre></td></tr></table></figure><p>删除的命令:</p><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:<span class="number">80</span>,<span class="number">102</span>s/^/ /</span><br></pre></td></tr></table></figure><p><strong>注意上面有个空字符，没用g，因为这些行其他位置也有#符。</strong></p>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; rel=&quot;external nofollow noopener noreferrer&quot; target=&quot;_blank&quot;&gt;Hexo&lt;/a&gt;! This is your very first post.
+        &lt;p&gt;假如在&lt;strong&gt;VIM&lt;/strong&gt;里要把下面的设置行都注释掉：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/images/vim1.png&quot; alt&gt;&lt;/p&gt;
+&lt;p&gt;推荐第一种方法：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Ctrl+v&lt;/strong&gt;进入块选择模式，移动光标选
       
     
     </summary>
     
     
+      <category term="vim" scheme="http://zuriaake.github.io/categories/vim/"/>
+    
+    
+      <category term="vim" scheme="http://zuriaake.github.io/tags/vim/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>My First Post!</title>
+    <link href="http://zuriaake.github.io/undefinedMy-First-Post-1/"/>
+    <id>http://zuriaake.github.io/undefinedMy-First-Post-1/</id>
+    <published>2020-03-09T08:16:00.000Z</published>
+    <updated>2020-03-11T08:46:26.778Z</updated>
+    
+    <content type="html"><![CDATA[<p>第一次用Hexo,发现在管理和Deploy方面都比Jekyll方便得多。</p><p>这个博客主要用来记录自己在学习中的一些体会或者收获更多的可能只是单纯的做个记录，方便以后自己查询。</p><pre><code>2020-03-21</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;第一次用Hexo,发现在管理和Deploy方面都比Jekyll方便得多。&lt;/p&gt;
+&lt;p&gt;这个博客主要用来记录自己在学习中的一些体会或者收获更多的可能只是单纯的做个记录，方便以后自己查询。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;2020-03-21&lt;/code&gt;&lt;/pre&gt;
+      
+    
+    </summary>
+    
+    
+      <category term="Other" scheme="http://zuriaake.github.io/categories/Other/"/>
+    
+    
+      <category term="Hexo" scheme="http://zuriaake.github.io/tags/Hexo/"/>
     
   </entry>
   
