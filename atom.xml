@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://zuriaake.github.io/"/>
-  <updated>2020-03-11T10:45:02.021Z</updated>
+  <updated>2020-03-13T07:31:51.779Z</updated>
   <id>http://zuriaake.github.io/</id>
   
   <author>
@@ -17,13 +17,36 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>科学上网之tsocks</title>
+    <link href="http://zuriaake.github.io/undefined%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91%E4%B9%8Btsocks/"/>
+    <id>http://zuriaake.github.io/undefined%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91%E4%B9%8Btsocks/</id>
+    <published>2020-03-12T18:54:42.000Z</published>
+    <updated>2020-03-13T07:31:51.779Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>  tsocks - Shell  wrapper to simplify the use of the tsocks library  to transparently allow an application to use a SOCKS proxy.</p></blockquote><p>Archlinux安装tsocks:</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">sudo pacman -S tsocks</span><br></pre></td></tr></table></figure><p>新建配置文件:</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">sudo vim /etc/tsocks.conf</span><br></pre></td></tr></table></figure><p>配置文件也很简单:</p><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">server</span> = <span class="number">127.0</span>.<span class="number">0.1</span> <span class="comment">#服务器地址</span></span><br><span class="line"><span class="attr">server_type</span> = <span class="number">5</span>  <span class="comment">#sock类型</span></span><br><span class="line"><span class="attr">server_port</span> = <span class="number">1080</span> <span class="comment">#sock服务使用的端口号</span></span><br></pre></td></tr></table></figure><p>现在你可以愉快的使用：</p><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">tsocks wget <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span>.</span><br><span class="line">tsocks git clone <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span>.</span><br><span class="line">tsocks firefox</span><br><span class="line">tsocks pyenv install <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span></span><br><span class="line"><span class="built_in">..</span><span class="built_in">..</span>.</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt;  tsocks - Shell  wrapper to simplify the use of the tsocks library  to transparently allow an application to use a SOCKS pr
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
     <title>vim 中批量添加注释</title>
     <link href="http://zuriaake.github.io/undefinedvim-%E4%B8%AD%E6%89%B9%E9%87%8F%E6%B7%BB%E5%8A%A0%E6%B3%A8%E9%87%8A/"/>
     <id>http://zuriaake.github.io/undefinedvim-%E4%B8%AD%E6%89%B9%E9%87%8F%E6%B7%BB%E5%8A%A0%E6%B3%A8%E9%87%8A/</id>
     <published>2020-03-10T09:00:00.000Z</published>
-    <updated>2020-03-11T10:45:02.021Z</updated>
+    <updated>2020-03-11T11:26:07.181Z</updated>
     
-    <content type="html"><![CDATA[<p>假如在<strong>VIM</strong>里要把下面的设置行都注释掉：</p><p><img src="/images/vim1.png" alt></p><p>推荐第一种方法：</p><p><strong>Ctrl+v</strong>进入块选择模式，移动光标选择需要注释的行,按下大写的I(首行插入模式),输入注释符（比如#）,按<strong>ESC</strong>退出.</p><p><img src="/images/vim2.png" alt></p><p>批量删除刚刚添加的注释符，同样按下<strong>Ctrl+v</strong>进入快选择模式，移动光标选择需要删除的行，</p><p>选好之后直接按<strong>d</strong>删除。</p><p><img src="/images/vim3.png" alt></p><p>第二种方法：<strong>vim</strong>替换命令</p><p>设置行号，因为要用到</p><p><img src="/images/vim4.png" alt></p><p>普通模式下输入:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:80,102s&#x2F;^&#x2F;#&#x2F;g</span><br></pre></td></tr></table></figure><p>删除的命令:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:80,102s&#x2F;^&#x2F; &#x2F;</span><br></pre></td></tr></table></figure><p><strong>注意上面有个空字符，没用g，因为这些行其他位置也有#符。</strong></p>]]></content>
+    <content type="html"><![CDATA[<p>假如在<strong>VIM</strong>里要把下面的设置行都注释掉：</p><p><img src="/images/vim1.png" alt></p><p>推荐第一种方法：</p><p><strong>Ctrl+v</strong>进入块选择模式，移动光标选择需要注释的行,按下大写的I(首行插入模式),输入注释符（比如#）,按<strong>ESC</strong>退出.</p><p><img src="/images/vim2.png" alt></p><p>批量删除刚刚添加的注释符，同样按下<strong>Ctrl+v</strong>进入快选择模式，移动光标选择需要删除的行，</p><p>选好之后直接按<strong>d</strong>删除。</p><p><img src="/images/vim3.png" alt></p><p>第二种方法：<strong>vim</strong>替换命令</p><p>设置行号，因为要用到</p><p><img src="/images/vim4.png" alt></p><p>普通模式下输入:</p><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:<span class="number">80</span>,<span class="number">102</span>s/^/#/g</span><br></pre></td></tr></table></figure><p>删除的命令:</p><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:<span class="number">80</span>,<span class="number">102</span>s/^/ /</span><br></pre></td></tr></table></figure><p><strong>注意上面有个空字符，没用g，因为这些行其他位置也有#符。</strong></p>]]></content>
     
     <summary type="html">
     
