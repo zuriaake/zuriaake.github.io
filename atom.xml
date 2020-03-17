@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://zuriaake.github.io/"/>
-  <updated>2020-03-16T15:44:54.452Z</updated>
+  <updated>2020-03-17T14:56:46.703Z</updated>
   <id>http://zuriaake.github.io/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Linux命令-netstat</title>
+    <link href="http://zuriaake.github.io/undefinedLinux%E5%91%BD%E4%BB%A4-netstat/"/>
+    <id>http://zuriaake.github.io/undefinedLinux%E5%91%BD%E4%BB%A4-netstat/</id>
+    <published>2020-03-16T23:18:19.000Z</published>
+    <updated>2020-03-17T14:56:46.703Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong><em>netstat</em></strong> 命令可以用来快速知道你的机器对外开放了哪些端口,主要参数:</p><p>-a    :列出所有的连线状态，包括tcp/udp/unix socket等</p><p>-t    :只列出tcp封包的连线</p><p>-u    :只列出udp封包的连线</p><p>-l    :只列出在Listen(监听)的服务的网络状态</p><p>-p    :列出程序名和程序的pid(有些程序可能需要有root权限的用户才会显示)</p><p>-c    :可以指定多少秒自动更新一次网络状态,比如-c 5就是每5秒更新一次网络状态</p><p>-n    :默认情况下 netstat 会通过反向域名解析技术查找每个 IP 地址对应的主机名。这会降低查找速度。如果你觉得 IP 地址已经足够，而没有必要知道主机名，就使用 -n 选项禁用域名解析功能。</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo netstat -tulpn</span><br></pre></td></tr></table></figure><p><img src="/images/netstat1.png" alt></p><p>输出的各个栏位的意义：</p><p><strong><em>Proto</em></strong>:该连接的封包协议</p><p><strong><em>Recv-Q</em></strong>:不是使用者程序复制而来总的bytes数</p><p><strong><em>Send-Q</em></strong>:由远端主机传送来的总bytes数，但不具有ACK标识的封包。</p><p><strong><em>Local Address</em></strong>:本机的位址，可以是IP（-n参数）,也可以是完整的主机名称。</p><p>使用的格式是IP:port</p><p>:::port表示的是IPv6的格式,比如图中的:::4000</p><p>0.0.0.0:xx表示对全部界面提供的服务,127.0.0.1:xx只对本机内部放行，外部是完全没法访问到的;图中的192.168.122.1:53是对内部虚拟机提供服务的</p><p><strong><em>Foreign Address</em></strong>:远端主机的IP和port</p><p><strong><em>State</em></strong>:状态列</p><p>主要的状态有：</p><p>   ESTABLISED：已经建立连接</p><p>   SYN_SENT：发出主动连线(SYN标识)的连线封包</p><p>   SYN_RECV：接受到要求主动连线的封包</p><p>   FIN_WAIT1：该socket已经中断，连线中断中</p><p>   FIN_WAIT2：该连线已经中断，但是正在等待对方主机确认中断封包</p><p>   TIME_WAIT：该连线已经中断，但是socket还在网络中等待结束</p><p>   LISTEN：服务的监听端口</p><p><strong><em>PID/Program name</em></strong>：很直白了PID和程序名字，关闭不必要的端口就可以通过这个提供的信息来操作</p><p>比如我的主机端口5900,1080,53,67,4000我确定是要用到的;其他不必要的端口都是由avahi-daemon这个服务在占用着</p><p>来看看这个服务是不是开机启动:</p><pre><code>systemctl list-unit-files | grep avahi</code></pre><p><img src="/images/netstat2.png" alt></p><p>两个相关的服务开机启动,查看该服务的状态:</p><pre><code>systemctl status avahi-daemon</code></pre><p><img src="/images/netstat3.png" alt></p><p>关闭该服务设置开机不启动：</p><pre><code>sudo systemctl stop avahi-daemon.service avahi-daemon.socketsudosystemctl disable avhi-daemon.service avahi-daemon.socket</code></pre><p><img src="/images/netstat4.png" alt></p><p>确认下:</p><pre><code>sudo netstat -tulpn</code></pre><p><img src="/images/netstat5.png" alt></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;strong&gt;&lt;em&gt;netstat&lt;/em&gt;&lt;/strong&gt; 命令可以用来快速知道你的机器对外开放了哪些端口,主要参数:&lt;/p&gt;
+&lt;p&gt;-a    :列出所有的连线状态，包括tcp/udp/unix socket等&lt;/p&gt;
+&lt;p&gt;-t    :只列出tcp封包的连线&lt;
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
   
   <entry>
     <title>正则表达式-字符组</title>
